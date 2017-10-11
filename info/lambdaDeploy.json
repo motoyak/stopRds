@@ -1,0 +1,21 @@
+{
+    "FunctionName": "rds-stop",
+    "FunctionArn": "arn:aws:lambda:ap-northeast-1:853253248172:function:rds-stop",
+    "Runtime": "nodejs6.10",
+    "Role": "arn:aws:iam::853253248172:role/rds-start-stop",
+    "Handler": "index.handler",
+    "CodeSize": 854,
+    "Description": "",
+    "Timeout": 10,
+    "MemorySize": 128,
+    "LastModified": "2017-10-11T11:21:11.448+0000",
+    "CodeSha256": "hcqFr/Z7U1g1ICdTGng30v6rB3xbXJgBSVcQLRUj1+Y=",
+    "Version": "$LATEST",
+    "VpcConfig": {
+        "SubnetIds": [],
+        "SecurityGroupIds": []
+    },
+    "TracingConfig": {
+        "Mode": "PassThrough"
+    }
+}

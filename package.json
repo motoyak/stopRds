@@ -5,5 +5,14 @@
   "main": "index.js",
   "repository": "https://github.com/motoyak/stopRds.git",
   "author": "Motohiro Yakura",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "test": "make test"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.131.0"
+  },
+  "devDependencies": {
+    "jasmine": "^2.8.0"
+  }
 }

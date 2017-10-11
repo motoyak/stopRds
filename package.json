@@ -1,0 +1,9 @@
+{
+  "name": "stopRds",
+  "version": "1.0.0",
+  "description": "stop rds lambda function",
+  "main": "index.js",
+  "repository": "https://github.com/motoyak/stopRds.git",
+  "author": "Motohiro Yakura",
+  "license": "MIT"
+}

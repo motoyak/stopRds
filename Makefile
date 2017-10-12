@@ -15,7 +15,7 @@ node_modules:
 	npm install
 
 test: node_modules
-	@NODE_PATH=./lib jasmine
+	mocha
 
 archive.zip: clean
 	mkdir -p dist

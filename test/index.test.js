@@ -16,11 +16,9 @@ describe('RDS lambda', ()=>{
 
   beforeEach(() => {
     event = {};
-    callback = (error, result) => {
-      return new Promise((resolve, reject) => {
-        error ? reject(error) : resolve(result);
-      });
-    };
+    callback = (error, result) => new Promise((resolve, reject) => {
+      error ? reject(error) : resolve(result);
+    });
     context = {};
     proxyRds = class {
       describeDBInstances (params) {
@@ -51,7 +49,7 @@ describe('RDS lambda', ()=>{
         .returns({promise: () => {
           return Promise.resolve({
             DBInstances: [{
-              DBInstanceIdentifier: 'LomonDB',
+              DBInstanceIdentifier: 'LemonDB',
               DBInstanceArn: 1
             }, {
               DBInstanceIdentifier: 'OrangeDB',
@@ -133,11 +131,11 @@ describe('RDS lambda', ()=>{
 
     return expect(lambda.handler(event, context, callback)).to.be.fulfilled.then(result => {
       expect(stubRdsDescribeDBInstances.calledOnce).to.be.equal(true);
-      expect(result).to.deep.equal(JSON.stringify({
-        statusCode: 200,
-        body: {post_title: 'aa', post_content: 'bb'}
-      }));
-    });
+      expect(stubRdsListTagsForResource.called).to.be.equal(true);
+      expect(result).to.deep.equal([
+        'LemonDB',
+        'OrangeDB'
+      ])
+      });
   });
-
 });

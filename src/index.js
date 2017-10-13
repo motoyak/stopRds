@@ -2,40 +2,37 @@
 const aws = require('aws-sdk');
 const rds = new aws.RDS();
 
+// Check if environment supports native promises
+if (typeof Promise === 'undefined') {
+  AWS.config.setPromisesDependency(require('bluebird'));
+}
+
 module.exports.handler = (event, context, callback) => {
-  return new Promise(()=> {
-    return stopInstances().promise();
-  }).then(result => {
-    console.log(result, 'AAAAAAAAAAAAAAA');
-    callback(null, result);
-  }).catch(error => {
-    console.log('ERRor');
-    callback(error);
+  return Promise.resolve().then(()=> {
+    return stopInstances();
+  }).then(data => {
+    return Promise.resolve(callback(null, data));
+  }).catch(err => {
+      console.log('Error', err);
+      return Promise.reject(callback(err, null));
   });
 };
 
 const stopInstances = ()=>{
-  rds
-    .describeDBInstances({})
-    .promise()
-    .then(data=>
-      Promise.all(data.DBInstances.map(instance=>describeTagsFromDBInstance(rds, instance)))
-    )
-    .then(results=>{
-      console.log(results);
-      const res = [];
-      results.forEach(elm=>{
-        const instanceName = elm.InstanceName;
-        console.log(instanceName, elm.TagList);
-        res.push(instanceName);
-      });
-      console.log('Answer', res);
-      return Promise.resolve(res);
-    })
-    .catch(err => {
-      console.log('WWWWWWWWWWWW');
-      Promise.reject(err);
-    });
+  return new Promise((resolve, reject) => {
+    rds
+      .describeDBInstances({}).promise()
+      .then(data =>
+        Promise.all(data.DBInstances.map(instance => describeTagsFromDBInstance(rds, instance)))
+      )
+      .then(data => {
+        const res = data
+          .filter(elm => elm.TagList.some(elm => (elm.Key === 'AlwaysOff' && elm.Value === 'true')))
+          .map(elm => elm.InstanceName);
+        return resolve(res);
+      })
+      .catch(err => reject(err));
+  });
 };
 
 const describeTagsFromDBInstance = (rds, DBInstance) => {

@@ -2,7 +2,7 @@
     "TracingConfig": {
         "Mode": "PassThrough"
     }, 
-    "CodeSha256": "sgiCarWj4yuaJhCqKceqt7QfpopMyAxaj/NuK/tqldY=", 
+    "CodeSha256": "TMzBtZ6TtnuydvOxvnc3xuN8n/vZrpzqLONFm1yROAo=", 
     "FunctionName": "rds-stop", 
     "VpcConfig": {
         "SubnetIds": [], 
@@ -13,7 +13,7 @@
     "Version": "$LATEST", 
     "Role": "arn:aws:iam::853253248172:role/rds-start-stop", 
     "Timeout": 10, 
-    "LastModified": "2017-10-13T09:43:22.193+0000", 
+    "LastModified": "2017-10-13T10:03:28.848+0000", 
     "Handler": "index.handler", 
     "Runtime": "nodejs6.10", 
     "CodeSize": 736, 

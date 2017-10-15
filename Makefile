@@ -1,6 +1,6 @@
 PATH  := node_modules/.bin:$(PATH)
 
-profile := grandseeds-lambda-operator
+profile := $(AWS_PROFILE_STOPRDS)
 funcName := rds-stop
 
 .PHONY: all clean test dist
@@ -20,15 +20,19 @@ test: node_modules
 archive.zip: clean
 	mkdir -p dist
 	cp -r src/* dist/
-	cd dist; chmod -R a+r *; zip -r ../archive.zip *
+	cd dist; chmod -R a+r *; zip -r ../uploads/archive.zip *
 	rm -rf dist
 
 dist: archive.zip
 
 deploy: dist
+ifndef profile
+	@echo "*** Please set AWS_PROFILE_STOPRDS env ***"
+else
 	mkdir -p info
 	@echo "Deploying Lambda Function..."
 	aws --profile $(profile) lambda update-function-code \
           --function-name $(funcName) \
-          --zip-file "fileb://archive.zip" > info/lambdaDeploy.json
+          --zip-file "fileb://uploads/archive.zip" > info/lambdaDeploy.json
 	@echo "Done!"
+endif
